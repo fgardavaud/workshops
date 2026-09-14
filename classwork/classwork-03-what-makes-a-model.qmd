@@ -225,3 +225,22 @@ What kind of object is it? What can you do with it?
 
 You can also read the documentation for object extraction:
 https://workflows.tidymodels.org/reference/extract-workflow.html
+
+## Your turn
+
+
+```{r}
+# utilisation de vip package pour comprendre les variable sd'influence sur le modèle
+library(vip)
+logistic_fit |>
+  extract_fit_engine() |>
+  vip(geom = "point", num_features = 10)
+
+tree_fit |>
+  extract_fit_engine() |>
+  vip(geom = "point", num_features = 10)
+```
+
+
+Pour trouver la façon dont les variables importance sont calculées dans le modèle, il faut aller dans l'aide de vi_model {vip}.
+La méthode de calcul de l'importance des variables dépend du type de modèle. Pour les modèles linéaires, l'importance est calculée à partir des coefficients du modèle. Pour les modèles d'arbres, l'importance est calculée à partir de la réduction de l'impureté (par exemple, la réduction de Gini) ou de la permutation des variables.
