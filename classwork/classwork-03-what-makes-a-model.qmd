@@ -136,17 +136,23 @@ tree_wflow
 logistic_spec <- logistic_reg() |>
   set_mode("classification") |>
   set_engine("glm")
+
+logistic_wflow <- workflow() |>
+  add_formula(class ~ .) |>
+  add_model(logistic_spec)
+
+logistic_wflow
 ```
 
 ## Predict with your model
 
 ```{r}
 tree_fit <-
-  workflow(class ~ ., tree_spec) |>
+  tree_wflow |>
   fit(data = cls_train)
 
 logistic_fit <-
-  workflow(class ~ ., logistic_spec) |>
+  logistic_wflow |>
   fit(data = cls_train)
 ```
 
