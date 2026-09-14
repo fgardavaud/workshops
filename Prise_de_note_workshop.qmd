@@ -3,8 +3,41 @@ title: "Prise de Note Workshop Machine Learning Posit Conf"
 format: html
 ---
 
-Prise de Note Posit Conf
+fonction `augment` bien plus pratique que `predict`.
 
 
 En classification, l’accuracy peut être bonne alors que les prédictions sont très proches entre 2 classes.
-Pour contrebalancer ce fait on utiliser le Brier score qui s’apparente à la RMSE en régression
+Pour contrebalancer ce fait, on utilise le Brier score qui s’apparente à la RMSE en régression.
+
+Pour évaluer le best model en finetunning préféré le Brier score au lieu de l'accuracy.
+
+C'est ce qu'on appelle calibration.
+
+on fait la séparation training/validation/testing pour le dataset que si on a 300/100/100 individus par exemple.
+on le fait quand beaucoup de data car plus rapide mais les performances restent les mêmes. on ne gagne pas d'information supplémentaires à faire cette spération en 3 jeux de données.
+
+Pour le fine tunning grid search est la meilleure méthode.
+Pour concevoir la grille de recherche, il est conseillé d'utiliser la forme SFD latin hypercube ou SFD uniforme pour couvrir au mieux l'ensemble de l'espace à rechercher.
+
+6 & 7 - Feature engineering
+
+
+Pour la réduction de la dimensionnalité, on peut utiliser le NMF (Non-negative Matrix Factorization) mais les données doivent être non négatives. Sinon, on peut utiliser le PCA (Principal Component Analysis) qui est plus général.
+
+UMAP (Uniform Manifold Approximation and Projection) est une technique de réduction de dimensionnalité non linéaire qui est souvent utilisée pour la visualisation des données. Elle est particulièrement efficace pour capturer la structure locale des données et peut être utilisée pour explorer des ensembles de données complexes. Utilisé beaucoup en bioinformatique donc aussi pour les radiomiques car très flexible !! MAIS les arguments d'entrée changent vraiment beaucoup le résultat final. Ne jamais prendre n_neighbors < 20 !!
+
+la bonne pratique pourrait être nomalization, zero_variance, puis PCA puis UMAP.
+
+Pour le Recursive Feature Elimination (RFE), il est important de noter que cette méthode peut être coûteuse en termes de temps de calcul, surtout si le nombre de caractéristiques est élevé. Il est donc recommandé de l'utiliser avec prudence et de considérer des alternatives plus rapides si nécessaire. Posit aime pas trop cette technique.
+
+Pour le target encoding, toutes les méthodes sont bonnes.
+
+
+"8 - tidymodels and LLMs"
+
+Attention, les LLM font mal la feature selection.
+Mais ils sont bons en méthodes d'analyse.
+
+Posit assitant est le meilleur d'après l'audienece et en plus consomme moins de token que passer directement par Claude ou OpenAI.
+
+Ne pas utiliser si les données sont confidentielles ou de santé.
