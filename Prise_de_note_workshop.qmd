@@ -1,0 +1,10 @@
+---
+title: "Prise de Note Workshop Machine Learning Posit Conf"
+format: html
+---
+
+Prise de Note Posit Conf
+
+
+En classification, l’accuracy peut être bonne alors que les prédictions sont très proches entre 2 classes.
+Pour contrebalancer ce fait on utiliser le Brier score qui s’apparente à la RMSE en régression
