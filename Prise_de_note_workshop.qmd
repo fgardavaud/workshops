@@ -28,7 +28,7 @@ UMAP (Uniform Manifold Approximation and Projection) est une technique de réduc
 
 la bonne pratique pourrait être nomalization, zero_variance, puis PCA puis UMAP.
 
-Pour le Recursive Feature Elimination (RFE), il est important de noter que cette méthode peut être coûteuse en termes de temps de calcul, surtout si le nombre de caractéristiques est élevé. Il est donc recommandé de l'utiliser avec prudence et de considérer des alternatives plus rapides si nécessaire. Posit aime pas trop cette technique.
+Pour le Recursive Feature Elimination (RFE), il est important de noter que cette méthode peut être coûteuse en termes de temps de calcul, surtout si le nombre de caractéristiques est élevé. Il est donc recommandé de l'utiliser avec prudence et de considérer des alternatives plus rapides si nécessaire. Max Cuhn m'a dit qu'il faut absolument avoir la cross validation pour utiliser cette technique sinon ça overfit +++
 
 Pour le target encoding, toutes les méthodes sont bonnes.
 
@@ -41,3 +41,5 @@ Mais ils sont bons en méthodes d'analyse.
 Posit assitant est le meilleur d'après l'audienece et en plus consomme moins de token que passer directement par Claude ou OpenAI.
 
 Ne pas utiliser si les données sont confidentielles ou de santé.
+
+Essayer tabCPN
