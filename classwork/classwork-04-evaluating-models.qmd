@@ -73,6 +73,9 @@ lr_re_pred |>
 ```{r}
 lr_re_pred |>
   brier_class(truth = class, .pred_class_1)
+
+lr_re_pred |>
+  brier_class(truth = class, .pred_class_2)
 ```
 
 Smaller values are better.
@@ -84,6 +87,7 @@ The probably package was used to make the calibration plots:
 ```{r}
 library(probably)
 lr_re_pred |> cal_plot_breaks(class, .pred_class_1)
+lr_re_pred |> cal_plot_breaks(class, .pred_class_2)
 ```
 
 Try the other calibration curve methods in probably:
@@ -95,7 +99,8 @@ Do you prefer one over the others?
 
 ```{r}
 # Your code here!
-
+lr_re_pred |> cal_plot_logistic(class, .pred_class_1)
+lr_re_pred |> cal_plot_windowed(class, .pred_class_1)
 ```
 
 ## Metrics for model performance
