@@ -150,7 +150,7 @@ Use grid search to find the best parameter(s).
 
 ```{r}
 # Your code here!
-
+# skipped in session !
 ```
 
 ## The final fit
