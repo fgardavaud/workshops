@@ -73,6 +73,12 @@ tree_spec <-
   set_mode("classification")
 
 tree_spec
+
+logistic_spec <-
+  logistic_reg() |>
+  set_engine("glmnet") |>
+  set_mode("classification")
+logistic_spec
 ```
 
 ## A model workflow
@@ -126,6 +132,10 @@ tree_wflow <- workflow() |>
   add_model(tree_spec)
 
 tree_wflow
+
+logistic_spec <- logistic_reg() |>
+  set_mode("classification") |>
+  set_engine("glm")
 ```
 
 ## Predict with your model
@@ -133,6 +143,10 @@ tree_wflow
 ```{r}
 tree_fit <-
   workflow(class ~ ., tree_spec) |>
+  fit(data = cls_train)
+
+logistic_fit <-
+  workflow(class ~ ., logistic_spec) |>
   fit(data = cls_train)
 ```
 
@@ -142,6 +156,8 @@ Run:
 
 ```{r}
 predict(tree_fit, new_data = cls_test)
+# for logistic model
+predict(logistic_fit, new_data = cls_test)
 ```
 
 What do you notice about the structure of the result?
@@ -152,6 +168,9 @@ Run:
 
 ```{r}
 augment(tree_fit, new_data = cls_test)
+
+# for logistic model
+augment(logistic_fit, new_data = cls_test)
 ```
 
 How does the output compare to the output from `predict()`?
@@ -170,9 +189,29 @@ tree_fit |>
 Try extracting the model engine object from your fitted workflow!
 
 ```{r}
-# Your code here!
+preds <- bind_rows(
+  augment(logistic_fit, cls_test) |> mutate(model = "logistic"),
+  augment(tree_fit, cls_test) |> mutate(model = "tree")
+)
 
+preds |>
+  group_by(model) |>
+  metrics(truth = class, estimate = .pred_class, .pred_class_1)
+logistic_fit |>
+  extract_fit_engine()
+
+# on créé la courbe ROC des 2 modèles pour comparer
+preds |>
+  group_by(model) |>
+  roc_curve(truth = class, .pred_class_1) |>
+  autoplot()
 ```
+
+Sur cls_test (n = 200), les deux modèles ont la même précision (accuracy = 0.895), mais logistic_fit domine sur les métriques probabilistes : ROC AUC de 0.964 contre 0.884 pour tree_fit, et une log loss plus faible (0.249 vs 0.343). La courbe ROC confirme visuellement que la régression logistique domine l'arbre sur presque toute la plage de seuils.
+
+logistic_fit est donc le meilleur modèle pour ces données — il produit des probabilités mieux calibrées et discrimine mieux les deux classes, même si l'accuracy brute est identique.
+
+Une mise en garde : ces comparaisons reposent sur un seul jeu de test — la variabilité d'échantillonnage n'est pas quantifiée ici (pas d'intervalle de confiance ni de rééchantillonnage).
 
 What kind of object is it? What can you do with it?
 
